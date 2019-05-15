@@ -38,13 +38,13 @@
   <div id="siteWelcome" class="site-welcome active">
     <div class="loadding"></div>
   </div>
-  <div class="topNavBar clearfix">
+  <div id="topNavBar" class="topNavBar clearfix">
     <a href="#" class="logo" alt="logo" style="float: lfet;">
-      <span class=rs>RS</span><span class="card">card</span>
+      <span class="rs">RS</span><span class="card">card</span>
     </a>
     <nav style="float:right;">
       <ul class="clearfix">
-        <li><a href="#">关于</a></li>
+        <li><a href="#">关于</a></li> 
         <li><a href="#">技能</a></li>
         <li><a href="#">作品</a></li>
         <li><a href="#">博客</a></li>
@@ -198,6 +198,14 @@
     setTimeout(function() {
       siteWelcome.classList.remove('active')
     },1000)
+
+    window.onscroll = function() {
+      if(window.scrollY > 0){
+        topNavBar.classList.add('sticky')
+      } else {
+        topNavBar.classList.remove('sticky')
+      }
+    }
   </script>
 </body>
 
