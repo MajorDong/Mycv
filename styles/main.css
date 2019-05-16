@@ -55,6 +55,7 @@ hr {
 .topNavBar > nav > ul >li {
     float: left;
     margin: 0 17px 0 17px;
+    position: relative;
 }
 
 .topNavBar > nav > ul >li > a { 
@@ -65,9 +66,51 @@ hr {
     border-bottom: 3px solid transparent;
     padding: 5px 0 5px 0;
     display: block;
+    position: relative;
 }
-.topNavBar > nav > ul >li> a:hover {
-    border-bottom: 3px solid #e06567
+.topNavBar > nav > ul > li.active > a::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #e6567e;
+    height: 3px;
+    animation: menuSlide 0.4s;
+}
+@keyframes menuSlide {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+}
+.topNavBar .submenu {
+   display: none;
+   position: absolute; 
+   padding: 5px 10px;
+   right: 0;
+   top: 100%;
+   background: white;
+   color: #3d4451;
+   box-shadow: 0 0 5px rgba(0,0,0,0.5)
+}
+.topNavBar .submenu > li {
+    white-space: nowrap;
+}
+.topNavBar li.active > .submenu {
+  display: block;
+  animation: submenuSlide 0.3s
+}
+@keyframes submenuSlide {
+  0% {
+     margin-right: 100%; /*父元素的100%*/
+  }
+  100% {
+    margin-right: 0%;
+  }
 }
 .topNavBar .logo {
     font-size: 24px;
