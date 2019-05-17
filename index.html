@@ -16,6 +16,7 @@
       fill: currentColor;
       overflow: hidden;
     }
+
     .site-welcome {
       display: none;
       position: fixed;
@@ -28,6 +29,7 @@
       justify-content: center;
       align-items: center;
     }
+
     .site-welcome.active {
       display: flex;
     }
@@ -35,16 +37,16 @@
 </head>
 
 <body>
-  <div id="siteWelcome" class="site-welcome active">
+  <!-- <div id="siteWelcome" class="site-welcome active">
     <div class="loadding"></div>
-  </div>
+  </div> -->
   <div id="topNavBar" class="topNavBar clearfix">
     <a href="#" class="logo" alt="logo" style="float: lfet;">
       <span class="rs">RS</span><span class="card">card</span>
     </a>
     <nav class="menu" style="float:right;">
       <ul class="clearfix">
-        <li><a href="#siteAbout">关于</a></li> 
+        <li><a href="#siteAbout">关于</a></li>
         <li><a href="#siteSkills">技能</a></li>
         <li>
           <a href="#siteWorks">作品</a>
@@ -57,10 +59,10 @@
         <li>
           <a href="#">博客</a>
           <ul class="submenu">
-              <li>博客1</li>
-              <li>博客2</li>
-              <li>博客3</li>
-            </ul>
+            <li>博客1</li>
+            <li>博客2</li>
+            <li>博客3</li>
+          </ul>
         </li>
         <li><a href="#">日历</a></li>
         <li><a href="#">BLOG</a></li>
@@ -73,7 +75,7 @@
     <div class="mask"></div>
   </div>
   <main>
-    <div id="siteAbout" class="userCard">
+    <div data-x id="siteAbout" class="userCard">
       <div class="pictureAndText clearfix">
         <div class="picture">
           <img src="img/avatar.jpg" width=299 height=347 alt="头像">
@@ -129,7 +131,7 @@
       技能：前端开发，Node.js 开发
     </p>
   </main>
-  <section id="siteSkills" class="skills">
+  <section data-x id="siteSkills" class="skills">
     <h2>技 能</h2>
     <ol class="clearfix">
       <li>
@@ -171,7 +173,7 @@
 
     </ol>
   </section>
-  <section id="siteWorks" class="portfolio">
+  <section data-x id="siteWorks" class="portfolio">
     <h2>作品集</h2>
     <nav>
       <ol class="clearfix">
@@ -184,13 +186,13 @@
       </div>
     </nav>
     <script>
-      portfolio1.onclick = function(){
+      portfolio1.onclick = function () {
         portfolioBar.className = 'bar state-1'
       }
-      portfolio2.onclick = function(){
+      portfolio2.onclick = function () {
         portfolioBar.className = 'bar state-2'
       }
-      portfolio3.onclick = function(){
+      portfolio3.onclick = function () {
         portfolioBar.className = 'bar state-3'
       }
     </script>
@@ -207,61 +209,87 @@
       </div>
     </div>
   </section>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.3.0/Tween.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.3.0/Tween.min.js"></script>
   <script>
-    setTimeout(function() {
-      siteWelcome.classList.remove('active')
-    },1000)
+    // setTimeout(function () {
+    //   siteWelcome.classList.remove('active')
+    // }, 200 )//loading动画
 
-    window.onscroll = function() {
-      if(window.scrollY > 0){
+    let specialTags = document.querySelectorAll('[data-x]')
+    for(let i = 0; i < specialTags.length; i++) {
+      specialTags[i].classList.add('offset')
+    }
+    setTimeout(() => {
+      findcloseE()
+    }, 300);
+    window.onscroll = function () {
+      if (window.scrollY > 0) {
         topNavBar.classList.add('sticky')
       } else {
         topNavBar.classList.remove('sticky')
+      }// 顶部导航栏 
+      findcloseE()  
+    }
+    function findcloseE() {
+      let specialTags = document.querySelectorAll('[data-x]')
+      let minIndex = 0
+      for (let i = 1; i < specialTags.length; i++) {
+        if (Math.abs(specialTags[i].offsetTop - window.scrollY) < Math.abs(specialTags[minIndex].offsetTop - window.scrollY)) {
+          minIndex = i
+        }
+      }//找到和scrollY距离最近的specialTags
+      specialTags[minIndex].classList.remove('offset')//移除offset
+      let id = specialTags[minIndex].id
+      let a = document.querySelector('a[href="#' + id + '"]')//id为变量
+      let li = a.parentNode
+      let borthersAndMe = li.parentNode.children
+      for (let i = 0; i < borthersAndMe.length; i++) {
+        borthersAndMe[i].classList.remove('highlight')
       }
+      li.classList.add('highlight')// 添加滚动高亮*/
     }
 
     let liTags = document.querySelectorAll('nav.menu > ul > li')
-    for(let i=0; i<liTags.length; i++){
-      liTags[i].onmouseenter = function(x){
+    for (let i = 0; i < liTags.length; i++) {
+      liTags[i].onmouseenter = function (x) {
         x.currentTarget.classList.add('active')
       }
 
-      liTags[i].onmouseleave = function(x){
-        x.currentTarget.classList.remove('active') 
+      liTags[i].onmouseleave = function (x) {
+        x.currentTarget.classList.remove('active')
       }
-    }
+    }//用户mouse高亮和分菜单
 
     let aTags = document.querySelectorAll('nav.menu > ul > li > a')
     // Setup the animation loop.
     function animate(time) {
-    requestAnimationFrame(animate);
-    TWEEN.update(time);
+      requestAnimationFrame(animate);
+      TWEEN.update(time);
     }
     requestAnimationFrame(animate);//求帧率
-
-    for(let i=0; i<aTags.length; i++) {
-      aTags[i].onclick = function(x) {
+    for (let i = 0; i < aTags.length; i++) {
+      aTags[i].onclick = function (x) {
         x.preventDefault()
         let a = x.currentTarget
         let href = a.getAttribute('href')
         let element = document.querySelector(href)
         let top = element.offsetTop
         //let top = document.querySelector(x.currentTarget.getAttribute('href')).offsetTop
-        
+
         let currentTop = window.scrollY
         let targetTop = top - 80
         let distance = targetTop - currentTop
-        var t = Math.abs((distance/100) * 300)
-        if(t > 500) {t = 500}
-        var coords = { x: 0, y: currentTop }; 
+        var t = Math.abs((distance / 100) * 300)
+        if (t > 500) { t = 500 }
+        var coords = { x: 0, y: currentTop };
         var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
-          .to({ x: 0, y: targetTop}, t) 
+          .to({ x: 0, y: targetTop }, t)
           .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function to make the animation smooth.
-          .onUpdate(function() { // Called after tween.js updates 'coords'.
+          .onUpdate(function () { // Called after tween.js updates 'coords'.
             window.scrollTo(0, coords.y)
-        })
-        .start(); // Start the tween immediately.
+          })
+          .start(); // Start the tween immediately.
+
         /*
         let n = 50 //一共动多少次 100hz
         let t = 500 / n //滑动过程半秒，一次滑动的时间duration === period time
@@ -276,7 +304,7 @@
           }
           i = i + 1 // 放在if前少移动一个i
           window.scrollTo(0, currentTop + eachDistance * i)
-        }, t);
+        }, t)
         */
       }
     }
