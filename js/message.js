@@ -38,6 +38,7 @@
       this.form = view.querySelector('form')
       this.loadMessages()
       this.bindEvents()
+      this.saveMessage()
     },
     
     loadMessages: function () {
@@ -63,7 +64,7 @@
       myForm.addEventListener('submit', function (e) {
         e.preventDefault() //阻止表单提交的默认刷新页面
         this.saveMessage()
-      })
+      }.bind(this))
     },
     saveMessage: function () {
       let myForm = this.form
